@@ -1,17 +1,57 @@
+// index.js
+
 function fetchBooks() {
-  // To pass the tests, don't forget to return your fetch!
-  
+  fetch('https://anapioficeandfire.com/api/books')
+    .then(response => response.json())
+    .then(data => renderBooks(data))
+    .catch(error => console.error(error));
 }
 
 function renderBooks(books) {
-  const main = document.querySelector('main');
+  const bookListElement = document.getElementById('book-list');
+  if (!bookListElement) {
+    console.error("Book list element not found");
+    return;
+  }
+
+  bookListElement.innerHTML = ''; // Clear previous content
+
   books.forEach(book => {
-    const h2 = document.createElement('h2');
-    h2.innerHTML = book.name;
-    main.appendChild(h2);
+    const bookTitleElement = document.createElement('li');
+    bookTitleElement.textContent = book.title;
+    bookListElement.appendChild(bookTitleElement);
   });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  fetchBooks();
-});
+fetchBooks();
+
+// index.js
+
+function fetchBooks() {
+  return fetch('https://anapioficeandfire.com/api/books')
+    .then(response => response.json())
+    .then(data => renderBooks(data))
+    .catch(error => console.error(error));
+}
+
+function renderBooks(books) {
+  const bookListElement = document.getElementById('book-list');
+  if (!bookListElement) {
+    console.error("Book list element not found");
+    return;
+  }
+
+  bookListElement.innerHTML = ''; // Clear previous content
+
+  books.forEach(book => {
+    const bookTitleElement = document.createElement('li');
+    bookTitleElement.textContent = book.title;
+    bookListElement.appendChild(bookTitleElement);
+  });
+}
+
+fetchBooks();
+
+// Export the fetchBooks function for testing
+module.exports = fetchBooks;
+
